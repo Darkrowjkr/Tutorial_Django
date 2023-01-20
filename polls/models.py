@@ -7,7 +7,8 @@ from django.contrib import admin
 # Create your models here.
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date published', default=timezone.now())
+    user = models.CharField(max_length=60) #Falta arreglar aqui!!!!!!!! para que escriba directo el usuario que crea la pregunta
     def __str__(self):
         return self.question_text
 
