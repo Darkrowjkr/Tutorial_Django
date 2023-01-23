@@ -8,7 +8,7 @@ from django.contrib import admin
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published', default=timezone.now())
-    user = models.CharField(max_length=60) #Falta arreglar aqui!!!!!!!! para que escriba directo el usuario que crea la pregunta
+    user = models.CharField(max_length=60) 
     def __str__(self):
         return self.question_text
 
@@ -17,6 +17,21 @@ class Question(models.Model):
         for choice in self.choice_set.all():
             suma += choice.votes
         return suma
+
+    def choices(self):
+        ctxt_list = []
+        cvts_list = []
+        for choice in self.choice_set.all():
+            ctxt_list.append(choice.choice_text)
+            cvts_list.append(choice.votes)
+        return ctxt_list, cvts_list
+
+    def last_day_question(self):
+        qlist = []
+        for q in Question.objects.all():
+            if q.pub_date > (timezone.now() - datetime.timedelta(days=1)):
+                qlist.append(q)
+        return qlist
 
     #Se debe importar el admin de django.contrib
     @admin.display( 
