@@ -18,6 +18,12 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
+    context_object_name='question'
+
+    def get_object(self):
+        question_id = Question.base64decode(self.request.path.split("/")[2])
+        return Question.objects.get(id=question_id)
+
 
 class ResultsView(generic.DetailView):
     model = Question
